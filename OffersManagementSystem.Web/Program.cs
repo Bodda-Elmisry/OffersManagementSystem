@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OffersManagementSystem.Application.IData;
+using OffersManagementSystem.Application.IRepositories;
+using OffersManagementSystem.Infrastructure.Repositories;
 using OffersManagementSystem.Infrastructure.Data;
 using OffersManagementSystem.Infrastructure.Identity;
 
@@ -25,6 +27,8 @@ builder.Services.AddScoped(typeof(IAppDbDapper<>), sp =>
     var connStr = builder.Configuration.GetConnectionString("DefaultConnection");
     return ActivatorUtilities.CreateInstance(sp, typeof(AppDbDapper<>), connStr ?? "");
 });
+
+builder.Services.AddScoped<IOfferRepository, OfferRepository>();
 
 var app = builder.Build();
 
