@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersManagementSystem.Web", "OffersManagementSystem.Web\OffersManagementSystem.Web.csproj", "{0235637C-6A21-410D-B1D9-B109081AFABF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OffersManagementSystem.Web", "OffersManagementSystem.Web\OffersManagementSystem.Web.csproj", "{0235637C-6A21-410D-B1D9-B109081AFABF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersManagementSystem.Domain", "OffersManagementSystem.Domain\OffersManagementSystem.Domain.csproj", "{AE2D085F-CBE5-454C-8BF9-BD95253E1439}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersManagementSystem.Domain", "OffersManagementSystem.Domain\OffersManagementSystem.Domain.csproj", "{7E3AEB1B-0319-4B26-98CE-8A2F76C261C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersManagementSystem.Application", "OffersManagementSystem.Application\OffersManagementSystem.Application.csproj", "{EBFA93B4-B090-4CD2-B69A-9B0B2767F56E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersManagementSystem.Application", "OffersManagementSystem.Application\OffersManagementSystem.Application.csproj", "{FC677E1C-21B1-4B42-BCFE-717244A8F712}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersManagementSystem.Infrastructure", "OffersManagementSystem.Infrastructure\OffersManagementSystem.Infrastructure.csproj", "{B2C81B5D-C2DE-4CF4-ACC6-D21E132406EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersManagementSystem.Infrastructure", "OffersManagementSystem.Infrastructure\OffersManagementSystem.Infrastructure.csproj", "{915EE7DA-563B-4DF1-931E-4275BB4B19FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +21,18 @@ Global
 		{0235637C-6A21-410D-B1D9-B109081AFABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0235637C-6A21-410D-B1D9-B109081AFABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0235637C-6A21-410D-B1D9-B109081AFABF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE2D085F-CBE5-454C-8BF9-BD95253E1439}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE2D085F-CBE5-454C-8BF9-BD95253E1439}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE2D085F-CBE5-454C-8BF9-BD95253E1439}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE2D085F-CBE5-454C-8BF9-BD95253E1439}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EBFA93B4-B090-4CD2-B69A-9B0B2767F56E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EBFA93B4-B090-4CD2-B69A-9B0B2767F56E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EBFA93B4-B090-4CD2-B69A-9B0B2767F56E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EBFA93B4-B090-4CD2-B69A-9B0B2767F56E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2C81B5D-C2DE-4CF4-ACC6-D21E132406EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2C81B5D-C2DE-4CF4-ACC6-D21E132406EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2C81B5D-C2DE-4CF4-ACC6-D21E132406EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2C81B5D-C2DE-4CF4-ACC6-D21E132406EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E3AEB1B-0319-4B26-98CE-8A2F76C261C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E3AEB1B-0319-4B26-98CE-8A2F76C261C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E3AEB1B-0319-4B26-98CE-8A2F76C261C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E3AEB1B-0319-4B26-98CE-8A2F76C261C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC677E1C-21B1-4B42-BCFE-717244A8F712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC677E1C-21B1-4B42-BCFE-717244A8F712}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC677E1C-21B1-4B42-BCFE-717244A8F712}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC677E1C-21B1-4B42-BCFE-717244A8F712}.Release|Any CPU.Build.0 = Release|Any CPU
+		{915EE7DA-563B-4DF1-931E-4275BB4B19FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{915EE7DA-563B-4DF1-931E-4275BB4B19FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{915EE7DA-563B-4DF1-931E-4275BB4B19FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{915EE7DA-563B-4DF1-931E-4275BB4B19FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
