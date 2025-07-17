@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using OffersManagementSystem.Application.IData;
 using OffersManagementSystem.Infrastructure.Data;
 using OffersManagementSystem.Infrastructure.Identity;
 
@@ -17,6 +18,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<AppIdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+
+// Add Dapper
+builder.Services.AddScoped(typeof(IAppDbDapper<>), sp =>
+{
+    var connStr = builder.Configuration.GetConnectionString("DefaultConnection");
+    return ActivatorUtilities.CreateInstance(sp, typeof(AppDbDapper<>), connStr ?? "");
+});
 
 var app = builder.Build();
 
