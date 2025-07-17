@@ -8,6 +8,7 @@ using Dapper;
 using OffersManagementSystem.Application.IData;
 using Microsoft.Data.SqlClient;
 using System.Data.Common;
+using Microsoft.Extensions.Configuration;
 
 namespace OffersManagementSystem.Infrastructure.Data
 {
@@ -15,9 +16,9 @@ namespace OffersManagementSystem.Infrastructure.Data
     {
         private readonly string _connectionString;
 
-        public AppDbDapper(string ConnectionString)
+        public AppDbDapper(IConfiguration config)
         {
-            _connectionString = ConnectionString;
+            _connectionString = config.GetConnectionString("DefaultConnection") ?? "";
         }
 
         public async Task<int> ExecuteAsync(string sql, object param = null)

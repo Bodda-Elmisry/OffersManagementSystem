@@ -7,11 +7,12 @@ using OffersManagementSystem.Infrastructure.Data;
 using OffersManagementSystem.Infrastructure.Identity;
 using OffersManagementSystem.Infrastructure.Services;
 using OffersManagementSystem.Application.IServices;
+using OffersManagementSystem.Application.Settings;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddControllersWithViews();
 
 // Add DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -24,10 +25,37 @@ builder.Services.AddIdentity<AppIdentityUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 // Add Dapper
-builder.Services.AddScoped(typeof(IAppDbDapper<>), sp =>
+builder.Services.AddScoped(typeof(IAppDbDapper<>), typeof(AppDbDapper<>));
+//builder.Services.AddScoped(typeof(IAppDbDapper<>), sp =>
+//{
+//    var connStr = builder.Configuration.GetConnectionString("DefaultConnection");
+//    return ActivatorUtilities.CreateInstance(sp, typeof(AppDbDapper<>), connStr ?? "");
+//});
+
+// Get JWT Settings from appsettings.json
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+builder.Services.Configure<JwtSettings>(jwtSettings);
+
+var key = Encoding.UTF8.GetBytes(jwtSettings["Key"] ?? "");
+
+builder.Services.AddAuthentication(options =>
 {
-    var connStr = builder.Configuration.GetConnectionString("DefaultConnection");
-    return ActivatorUtilities.CreateInstance(sp, typeof(AppDbDapper<>), connStr ?? "");
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidateAudience = true,
+        ValidAudience = jwtSettings["Audience"],
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ClockSkew = TimeSpan.Zero
+    };
 });
 
 //Add Repositories
@@ -37,6 +65,9 @@ builder.Services.AddScoped<IOfferRepository, OfferRepository>();
 builder.Services.AddScoped<IOfferService, OfferService>();
 
 
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 

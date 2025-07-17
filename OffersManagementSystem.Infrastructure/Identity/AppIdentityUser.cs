@@ -9,5 +9,7 @@ namespace OffersManagementSystem.Infrastructure.Identity
 {
     public class AppIdentityUser : IdentityUser
     {
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
     }
 }
