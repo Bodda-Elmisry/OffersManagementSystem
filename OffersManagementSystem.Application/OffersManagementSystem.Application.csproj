@@ -10,8 +10,4 @@
     <ProjectReference Include="..\OffersManagementSystem.Domain\OffersManagementSystem.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="IServices\" />
-  </ItemGroup>
-
 </Project>

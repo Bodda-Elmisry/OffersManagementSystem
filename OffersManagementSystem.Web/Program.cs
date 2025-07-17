@@ -5,6 +5,8 @@ using OffersManagementSystem.Application.IRepositories;
 using OffersManagementSystem.Infrastructure.Repositories;
 using OffersManagementSystem.Infrastructure.Data;
 using OffersManagementSystem.Infrastructure.Identity;
+using OffersManagementSystem.Infrastructure.Services;
+using OffersManagementSystem.Application.IServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +30,13 @@ builder.Services.AddScoped(typeof(IAppDbDapper<>), sp =>
     return ActivatorUtilities.CreateInstance(sp, typeof(AppDbDapper<>), connStr ?? "");
 });
 
+//Add Repositories
 builder.Services.AddScoped<IOfferRepository, OfferRepository>();
+
+// Add Services
+builder.Services.AddScoped<IOfferService, OfferService>();
+
+
 
 var app = builder.Build();
 
