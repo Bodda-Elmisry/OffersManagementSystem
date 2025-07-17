@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using OffersManagementSystem.Domain.Entities;
+using OffersManagementSystem.Domain.EntitiesConfigrations;
 using OffersManagementSystem.Infrastructure.Identity;
 using System;
 using System.Collections.Generic;
@@ -15,6 +17,15 @@ namespace OffersManagementSystem.Infrastructure.Data
             : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.ApplyConfiguration(new OfferConfig());
+        }
+
+        public DbSet<Offer> Offers { get; set; }
 
 
     }
