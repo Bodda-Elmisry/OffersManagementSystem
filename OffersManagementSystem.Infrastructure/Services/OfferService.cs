@@ -33,7 +33,7 @@ namespace OffersManagementSystem.Infrastructure.Services
             return await _offerRepository.GetAllOffersAsync(serial, offerAddress, fromDate, toDate, active, totalFrom, totalTo);
         }
 
-        public async Task<Offer> GetOfferByIdAsync(int id)
+        public async Task<Offer> GetOfferByIdAsync(long id)
         {
             return await _offerRepository.GetOfferByIdAsync(id);
         }

@@ -5,6 +5,7 @@ using OffersManagementSystem.Application.IServices;
 using OffersManagementSystem.Application.Settings;
 using OffersManagementSystem.Domain.DTOs;
 using OffersManagementSystem.Infrastructure.Identity;
+using OffersManagementSystem.Infrastructure.Identity.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;

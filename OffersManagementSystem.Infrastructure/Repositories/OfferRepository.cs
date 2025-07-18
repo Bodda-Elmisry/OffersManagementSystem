@@ -120,7 +120,7 @@ namespace OffersManagementSystem.Infrastructure.Repositories
             return await _dapper.QueryAsync(sql, parameters);
         }
 
-        public async Task<Offer> GetOfferByIdAsync(int id)
+        public async Task<Offer> GetOfferByIdAsync(long id)
         {
             var sql = $"select " +
                       $"\r\n\t\t\t[Id]" +

@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OffersManagementSystem.Application.IServices
+namespace OffersManagementSystem.Infrastructure.Identity.Interfaces
 {
     public interface ITokenService
     {
         Task<string> GenerateAccessTokenAsync(UserAuthModel user);
+        Task<(string AccessToken, string RefreshToken)> GenerateTokensAsync(AppIdentityUser user);
         string GenerateRefreshToken();
     }
 }

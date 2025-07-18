@@ -1,0 +1,25 @@
+﻿body {
+}
+
+
+.title {
+    color: black;
+    font-family: Roboto, sans-serif;
+}
+
+.details {
+    color: gray;
+    font-family: Roboto, sans-serif;
+    padding-left: 15px;
+}
+
+.over-lines {
+    max-height: 230px; 
+    overflow-y: auto; 
+    word-wrap: break-word; 
+    white-space: normal; 
+}
+
+.info-card{
+    padding-top: 15px;
+}

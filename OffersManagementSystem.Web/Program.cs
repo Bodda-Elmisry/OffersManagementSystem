@@ -11,6 +11,7 @@ using OffersManagementSystem.Application.Settings;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using OffersManagementSystem.Infrastructure.Identity.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,6 +64,8 @@ builder.Services.AddScoped<IOfferRepository, OfferRepository>();
 
 // Add Services
 builder.Services.AddScoped<IOfferService, OfferService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+
 
 
 
