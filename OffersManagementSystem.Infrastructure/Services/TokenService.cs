@@ -33,7 +33,7 @@ namespace OffersManagementSystem.Infrastructure.Services
             var userModel = new UserAuthModel
             {
                 Id = user.Id,
-                Email = user.Email!,
+                Usernaem = user.UserName!,
                 Roles = roles,
                 Claims = claims
             };
@@ -54,7 +54,7 @@ namespace OffersManagementSystem.Infrastructure.Services
             var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim(JwtRegisteredClaimNames.Name, user.Usernaem),
             new Claim("uid", user.Id),
         };
 

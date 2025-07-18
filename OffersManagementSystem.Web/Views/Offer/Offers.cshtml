@@ -1,4 +1,6 @@
-﻿@model List<OffersManagementSystem.Web.DTOs.OfferResultDTO>
+﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@model List<OffersManagementSystem.Web.DTOs.OfferResultDTO>
 
 @{
     ViewData["Title"] = "Offers";
@@ -9,17 +11,79 @@
         <h2>@ViewData["Title"]</h2>
     </div>
     <div class="col-md-1">
-        <div class="btn btn-primary" style="width: 100px; text-align: center">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Offer" asp-action="Create">
-                <i class="bi bi-clipboard2-plus-fill" style="font-size:20px"></i>
-            </a>
-        </div>
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="btn btn-primary" style="width: 100px; text-align: center">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Offer" asp-action="Create">
+                    <i class="bi bi-plus-circle-fill" style="font-size:20px"></i>
+                </a>
+            </div>
+        }
     </div>
 </div>
+
+<!-- Collapsible Filter Panel -->
+<div class="mb-3">
+    <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filterPanel" aria-expanded="false" aria-controls="filterPanel">
+        <i class="bi bi-funnel-fill"></i> Filter Offers
+    </button>
+</div>
+
+<div class="collapse mb-4" id="filterPanel">
+    <div class="card card-body">
+        <form method="post" asp-action="Offers" asp-controller="Offer">
+            <div class="row mb-2">
+                <div class="col-md-4">
+                    <label for="Serial" class="form-label">Serial</label>
+                    <input type="text" name="Serial" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label for="OfferAddress" class="form-label">Address</label>
+                    <input type="text" name="OfferAddress" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Active</label>
+                    <select name="Active" class="form-select">
+                        <option value="">-- All --</option>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-4">
+                    <label for="FromDate" class="form-label">From Date</label>
+                    <input type="date" name="FromDate" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label for="ToDate" class="form-label">To Date</label>
+                    <input type="date" name="ToDate" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label for="TotalFrom" class="form-label">Min Total</label>
+                    <input type="number" name="TotalFrom" class="form-control" step="0.01" min="0" />
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-4">
+                    <label for="TotalTo" class="form-label">Max Total</label>
+                    <input type="number" name="TotalTo" class="form-control" step="0.01" min="0" />
+                </div>
+                <div class="col-md-8 d-flex align-items-end justify-content-end">
+                    <button type="submit" class="btn btn-primary">Apply Filter</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 <table class="table table-bordered table-striped">
     <thead class="table-dark">
         <tr>
+            <th>Serial</th>
             <th>Address</th>
             <th>Date</th>
             <th>Expiration date</th>
@@ -34,6 +98,7 @@
             foreach (var offer in Model)
             {
                 <tr>
+                    <td>@offer.Serial</td>
                     <td>@offer.OfferAddress</td>
                     <td>@offer.OfferDate.ToString("dd/MM/yyyy")</td>
                     <td>@offer.ExpirationDate.ToString("dd/MM/yyyy")</td>
@@ -51,7 +116,7 @@
         else
         {
             <tr>
-                <td colspan="2" class="text-center text-muted">No offers available</td>
+                <td colspan="7" class="text-center text-muted">No offers available</td>
             </tr>
         }
     </tbody>

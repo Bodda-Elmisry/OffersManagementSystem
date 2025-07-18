@@ -17,7 +17,7 @@ namespace OffersManagementSystem.Web.DTOs
         {
             get
             {
-                return (ExpirationDate - DateTime.Now).Days + 1;
+                return (ExpirationDate - DateTime.Now).Days;
             }
         }
 

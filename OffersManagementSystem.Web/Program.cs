@@ -33,31 +33,43 @@ builder.Services.AddScoped(typeof(IAppDbDapper<>), typeof(AppDbDapper<>));
 //    return ActivatorUtilities.CreateInstance(sp, typeof(AppDbDapper<>), connStr ?? "");
 //});
 
-// Get JWT Settings from appsettings.json
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-builder.Services.Configure<JwtSettings>(jwtSettings);
-
-var key = Encoding.UTF8.GetBytes(jwtSettings["Key"] ?? "");
+// Add cookie authentication
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidateAudience = true,
-        ValidAudience = jwtSettings["Audience"],
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ClockSkew = TimeSpan.Zero
-    };
+    options.DefaultScheme = IdentityConstants.ApplicationScheme;
 });
+
+// Get JWT Settings from appsettings.json
+//var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+//builder.Services.Configure<JwtSettings>(jwtSettings);
+
+//var key = Encoding.UTF8.GetBytes(jwtSettings["Key"] ?? "");
+
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultScheme = IdentityConstants.ApplicationScheme; 
+//})
+
+//.AddJwtBearer(options =>
+//{
+//    options.TokenValidationParameters = new TokenValidationParameters
+//    {
+//        ValidateIssuer = true,
+//        ValidIssuer = jwtSettings["Issuer"],
+//        ValidateAudience = true,
+//        ValidAudience = jwtSettings["Audience"],
+//        ValidateLifetime = true,
+//        ValidateIssuerSigningKey = true,
+//        IssuerSigningKey = new SymmetricSecurityKey(key),
+//        ClockSkew = TimeSpan.Zero
+//    };
+//});
 
 //Add Repositories
 builder.Services.AddScoped<IOfferRepository, OfferRepository>();
@@ -87,6 +99,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

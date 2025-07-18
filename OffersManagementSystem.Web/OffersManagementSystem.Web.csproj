@@ -21,4 +21,8 @@
     <ProjectReference Include="..\OffersManagementSystem.Infrastructure\OffersManagementSystem.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
 </Project>

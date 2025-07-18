@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OffersManagementSystem.Application.IServices;
 using OffersManagementSystem.Domain.Entities;
@@ -11,6 +12,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace OffersManagementSystem.Web.Controllers
 {
+    [Authorize]
     public class OfferController : Controller
     {
         private readonly IOfferService _offerService;
@@ -20,9 +22,17 @@ namespace OffersManagementSystem.Web.Controllers
             this._offerService = offerService;
         }
 
-        public async Task<IActionResult> Offers()
+        //[HttpPost]
+        public async Task<IActionResult> Offers(OffersFilterDTO filter)
         {
-            var offers = await _offerService.GetAllOffersAsync(null, null, null, null, true, null, null);
+            var offers = await _offerService.GetAllOffersAsync(
+                                            filter.Serial, 
+                                            filter.OfferAddress,
+                                            filter.FromDate, 
+                                            filter.ToDate, 
+                                            filter.Active,
+                                            filter.TotalFrom, 
+                                            filter.TotalTo);
             var result = offers.Adapt<List<OfferResultDTO>>();
 
             return View(result);
@@ -36,6 +46,7 @@ namespace OffersManagementSystem.Web.Controllers
             return View(result);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             var offer = new CreateOfferDTO();
@@ -45,15 +56,22 @@ namespace OffersManagementSystem.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(CreateOfferDTO model, IFormFile UploadedFile)
         {
+            // Check if file is missing or empty
+            if (UploadedFile == null || UploadedFile.Length == 0)
+            {
+                ModelState.AddModelError(string.Empty, "File is required");
+            }
+
             if (!ModelState.IsValid)
                 return View(model);
 
-            if(UploadedFile == null || UploadedFile.Length == 0)
-            {
-                return View(model);
-            }
+            //if(UploadedFile == null || UploadedFile.Length == 0)
+            //{
+            //    return View(model);
+            //}
 
             var offer = model.Adapt<Offer>();
 

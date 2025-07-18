@@ -75,13 +75,14 @@ namespace OffersManagementSystem.Infrastructure.Repositories
                       $"\r\n           ,[Total]" +
                       $"\r\n           ,[Details]" +
                       $"\r\n           ,[FilePath]" +
-                      $"\r\nFrom [dbo].[Offers]";
+                      $"\r\nFrom [dbo].[Offers]" +
+                      $"\r\nWhere 1=1";
 
             var parameters = new DynamicParameters();
 
             if (!string.IsNullOrEmpty(serial))
             {
-                sql += " where Serial = @Serial";
+                sql += " and Serial = @Serial";
                 parameters.Add("@Serial", serial);
             }
 
@@ -89,6 +90,22 @@ namespace OffersManagementSystem.Infrastructure.Repositories
             {
                 sql += " and OfferAddress = @OfferAddress";
                 parameters.Add("@OfferAddress", offerAddress);
+            }
+
+            if(active.HasValue)
+            {
+                var today = DateTime.Now.ToString("yyyy-MM-dd");
+                if (active.Value == true)
+                {
+                    sql += " and DATEADD(Day, [OfferDayes], [OfferDate]) > @today";
+                    parameters.Add("@today", today);
+                }
+                else
+                {
+                    sql += " and DATEADD(Day, [OfferDayes], [OfferDate]) <= @today";
+                    parameters.Add("@today", today);
+                }
+
             }
 
             if (fromDate.HasValue)

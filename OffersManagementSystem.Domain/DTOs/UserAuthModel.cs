@@ -10,7 +10,7 @@ namespace OffersManagementSystem.Domain.DTOs
     public class UserAuthModel
     {
         public string Id { get; set; } = default!;
-        public string Email { get; set; } = default!;
+        public string Usernaem { get; set; } = default!;
         public IList<string> Roles { get; set; } = new List<string>();
         public IList<Claim> Claims { get; set; } = new List<Claim>();
     }

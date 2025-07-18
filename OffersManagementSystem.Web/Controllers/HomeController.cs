@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using OffersManagementSystem.Web.DTOs;
 using OffersManagementSystem.Web.Models;
 using System.Diagnostics;
 
@@ -15,7 +16,11 @@ namespace OffersManagementSystem.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if(User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Offers", "Offer", new OffersFilterDTO());
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult Privacy()
