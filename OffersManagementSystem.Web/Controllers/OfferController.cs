@@ -22,7 +22,11 @@ namespace OffersManagementSystem.Web.Controllers
             this._offerService = offerService;
         }
 
-        //[HttpPost]
+        /// <summary>
+        /// Getting offers list with filter and navigate to Offers view
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Offers(OffersFilterDTO filter)
         {
             var offers = await _offerService.GetAllOffersAsync(
@@ -34,10 +38,25 @@ namespace OffersManagementSystem.Web.Controllers
                                             filter.TotalFrom, 
                                             filter.TotalTo);
             var result = offers.Adapt<List<OfferResultDTO>>();
-
+            ViewData["Filter"] = filter;
             return View(result);
         }
 
+        /// <summary>
+        /// Clear the filter and redirect to Offers action with default values
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult ClearFilter()
+        {
+            
+            return RedirectToAction("Offers", "Offer", new OffersFilterDTO());
+        }
+
+        /// <summary>
+        /// Getting offer detail by id and navigate to OfferDetail view to show offer details
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> ViewOfferDetail(long id)
         {
             var offer = await _offerService.GetOfferByIdAsync(id);
@@ -46,6 +65,10 @@ namespace OffersManagementSystem.Web.Controllers
             return View(result);
         }
 
+        /// <summary>
+        /// Navigate to Create Offer view with default values
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
@@ -55,6 +78,12 @@ namespace OffersManagementSystem.Web.Controllers
             return View(offer);
         }
 
+        /// <summary>
+        /// Create a new offer with uploaded file and redirect to Offers view
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="UploadedFile"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(CreateOfferDTO model, IFormFile UploadedFile)
@@ -68,11 +97,6 @@ namespace OffersManagementSystem.Web.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            //if(UploadedFile == null || UploadedFile.Length == 0)
-            //{
-            //    return View(model);
-            //}
-
             var offer = model.Adapt<Offer>();
 
             offer.FilePath = await UploadFile(UploadedFile);
@@ -82,6 +106,13 @@ namespace OffersManagementSystem.Web.Controllers
             return RedirectToAction("Offers");
         }
 
+        /// <summary>
+        /// Upload file to the server and return the file path
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns>
+        /// File path as string
+        /// </returns>
         private async Task<string> UploadFile(IFormFile file)
         {
             var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
@@ -99,6 +130,13 @@ namespace OffersManagementSystem.Web.Controllers
             return filePath;
         }
 
+        /// <summary>
+        /// Download file from the server based on the file path
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns>
+        /// File result with the file content and content type
+        /// </returns>
         public IActionResult DownloadFile(string filePath)
         {
             if (string.IsNullOrEmpty(filePath))

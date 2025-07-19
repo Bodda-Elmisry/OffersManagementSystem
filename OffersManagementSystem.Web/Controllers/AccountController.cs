@@ -28,12 +28,21 @@ namespace OffersManagementSystem.Web.Controllers
             _tokenService = tokenService;
         }
 
+        /// <summary>
+        /// Navigate to Login view with default values
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Login()
         {
             LoginDTO loginDTO = new LoginDTO();
             return View(loginDTO);
         }
 
+        /// <summary>
+        /// Login user with username and password, if successful redirect to Offers page
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Login(LoginDTO model)
         {
@@ -55,20 +64,24 @@ namespace OffersManagementSystem.Web.Controllers
                 return View(model);
             }
 
-            //var (accessToken, refreshToken) = await _tokenService.GenerateTokensAsync(user);
-
-            //TempData["AccessToken"] = accessToken;
-            //TempData["RefreshToken"] = refreshToken;
-
             return RedirectToAction("Offers", "Offer", new OffersFilterDTO());
         }
 
+        /// <summary>
+        /// Navigate to Register view with default values
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Register()
         {
             RegisterDTO registerDTO = new RegisterDTO();
             return View(registerDTO);
         }
 
+        /// <summary>
+        /// Register a new user with username and password, if successful sign in the user and redirect to Offers page
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDTO model)
         {
@@ -96,7 +109,8 @@ namespace OffersManagementSystem.Web.Controllers
                 return View(model);
             }
 
-            if(model.IsAdmin)
+            //If the user is an admin, set the Admin role
+            if (model.IsAdmin)
             {
                 await SetAdminRole(user);
             }
@@ -104,14 +118,14 @@ namespace OffersManagementSystem.Web.Controllers
             // Sign in the user after registration
             await _signInManager.SignInAsync(user, isPersistent: false);
 
-            //var (accessToken, refreshToken) = await _tokenService.GenerateTokensAsync(user);
-
-            //TempData["AccessToken"] = accessToken;
-            //TempData["RefreshToken"] = refreshToken;
-
             return RedirectToAction("Offers", "Offer", new OffersFilterDTO());
         }
 
+        /// <summary>
+        /// Set the Admin role for the user if it doesn't exist, and add the user to the Admin role
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         private async Task SetAdminRole(AppIdentityUser user)
         {
             if (!await _roleManager.RoleExistsAsync("Admin"))
@@ -125,6 +139,10 @@ namespace OffersManagementSystem.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// Logout the user and redirect to Login page
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Logout()
         {

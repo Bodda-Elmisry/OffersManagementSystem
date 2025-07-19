@@ -14,6 +14,10 @@ namespace OffersManagementSystem.Web.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// If user is authenticated redirect to Offers page, otherwise redirect to Login page
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             if(User.Identity.IsAuthenticated)
@@ -23,15 +27,5 @@ namespace OffersManagementSystem.Web.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

@@ -5,6 +5,9 @@
 @{
     ViewData["Title"] = "Offers";
 }
+@{
+    var filter = ViewData["Filter"] as OffersManagementSystem.Web.DTOs.OffersFilterDTO ?? new();
+}
 
 <div class="row">
     <div class="col-md-11">
@@ -13,8 +16,8 @@
     <div class="col-md-1">
         @if (User.IsInRole("Admin"))
         {
-            <div class="btn btn-primary" style="width: 100px; text-align: center">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Offer" asp-action="Create">
+            <div class="btn btn-success" style="width: 100px; text-align: center">
+                <a class="nav-link" asp-area="" asp-controller="Offer" asp-action="Create">
                     <i class="bi bi-plus-circle-fill" style="font-size:20px"></i>
                 </a>
             </div>
@@ -35,7 +38,7 @@
             <div class="row mb-2">
                 <div class="col-md-4">
                     <label for="Serial" class="form-label">Serial</label>
-                    <input type="text" name="Serial" class="form-control" />
+                    <input type="text" name="Serial" class="form-control" value="@filter.Serial" />
                 </div>
                 <div class="col-md-4">
                     <label for="OfferAddress" class="form-label">Address</label>
@@ -44,9 +47,9 @@
                 <div class="col-md-4">
                     <label class="form-label">Active</label>
                     <select name="Active" class="form-select">
-                        <option value="">-- All --</option>
-                        <option value="true">Active</option>
-                        <option value="false">Inactive</option>
+                        <option value="" selected="@(filter.Active == null ? "selected" : null)">-- All --</option>
+                        <option value="true" selected="@(filter.Active == true ? "selected" : null)">Active</option>
+                        <option value="false" selected="@(filter.Active == false ? "selected" : null)">Inactive</option>
                     </select>
                 </div>
             </div>
@@ -54,25 +57,27 @@
             <div class="row mb-2">
                 <div class="col-md-4">
                     <label for="FromDate" class="form-label">From Date</label>
-                    <input type="date" name="FromDate" class="form-control" />
+                    <input type="date" name="FromDate" class="form-control" value="@filter.FromDate" />
                 </div>
                 <div class="col-md-4">
                     <label for="ToDate" class="form-label">To Date</label>
-                    <input type="date" name="ToDate" class="form-control" />
+                    <input type="date" name="ToDate" class="form-control" value="@filter.ToDate" />
                 </div>
                 <div class="col-md-4">
                     <label for="TotalFrom" class="form-label">Min Total</label>
-                    <input type="number" name="TotalFrom" class="form-control" step="0.01" min="0" />
+                    <input type="number" name="TotalFrom" class="form-control" step="0.01" min="0" value="@filter.TotalFrom" />
                 </div>
             </div>
 
             <div class="row mb-2">
                 <div class="col-md-4">
                     <label for="TotalTo" class="form-label">Max Total</label>
-                    <input type="number" name="TotalTo" class="form-control" step="0.01" min="0" />
+                    <input type="number" name="TotalTo" class="form-control" step="0.01" min="0" value="@filter.TotalTo" />
                 </div>
-                <div class="col-md-8 d-flex align-items-end justify-content-end">
+                <div class="col-md-6 d-flex align-items-end justify-content-end">
                     <button type="submit" class="btn btn-primary">Apply Filter</button>
+                </div><div class="col-md-2 d-flex align-items-end justify-content-end">
+                    <button class="btn btn-danger" asp-action="ClearFilter" asp-controller="Offer">Clear Filter</button>
                 </div>
             </div>
         </form>
@@ -105,10 +110,7 @@
                     <td>@offer.DayesToExpire</td>
                     <td>@offer.Total.ToString("C")</td>
                     <td>
-                        <div class="btn btn-primary" style="width: 100px; text-align: center">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Offer" asp-action="ViewOfferDetail" asp-route-id="@offer.Id">Details</a>
-                        </div>
-
+                        <button class="btn btn-primary" asp-controller="Offer" asp-action="ViewOfferDetail" asp-route-id="@offer.Id">Details</button>
                     </td>
                 </tr>
             }
