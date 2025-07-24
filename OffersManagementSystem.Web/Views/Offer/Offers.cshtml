@@ -110,7 +110,7 @@
                     <td>@offer.DayesToExpire</td>
                     <td>@offer.Total.ToString("C")</td>
                     <td>
-                        <button class="btn btn-primary" asp-controller="Offer" asp-action="ViewOfferDetail" asp-route-id="@offer.Id">Details</button>
+                        <a class="btn btn-primary" asp-controller="Offer" asp-action="ViewOfferDetail" asp-route-id="@offer.Id">Details</a>
                     </td>
                 </tr>
             }
